@@ -8,14 +8,12 @@
 //1 controller on
 const short with_uuid=1;
 
-const char* controllerip="137.82.252.59";
-const char* controller_service="137.82.252.59/controller.php";
-const char* filePath="/tmp/trace/tracelog.txt";
-const char* debugFilePath="/tmp/trace/tracelog2.txt";
-const char* dataFilePath="/tmp/trace/traceData.dat";
-const char* errFilePath="/tmp/trace/traceErr.txt";
-int ip_list_length=4;
-char *legal_ip_list[]={"127.0.0.1","137.82.252.59","0.0.0.0","172.17.0.3"};
+const char* controllerip="10.211.55.38";
+const char* controller_service="10.211.55.38/controller.php";
+const char* filePath="/tmp/tracelog.txt";
+const char* debugFilePath="/tmp/tracelog2.txt";
+const char* dataFilePath="/tmp/traceData.dat";
+const char* errFilePath="/tmp/traceErr.txt";
 
 const char* logRule="logs";
 
@@ -37,9 +35,9 @@ ssize_t recv(int sockfd, void *buf, size_t len, int flags)
         handle = dlopen("libc.so.6", RTLD_LAZY);
         old_recv = (RECV)dlsym(handle, "recv");
     }
-    // if(!uuid_key){
-    //     pthread_key_create(&uuid_key,NULL);
-    // }
+    if(!uuid_key){
+        pthread_key_create(&uuid_key,NULL);
+    }
     
 #ifdef DEBUG
     char log_text[LOG_LENGTH]="init";
@@ -250,35 +248,35 @@ ssize_t recv(int sockfd, void *buf, size_t len, int flags)
             
         }
     }
-    //     else if(socket_family==AF_UNIX){
-    // #ifdef OTHER_SOCK
-    //         sprintf(log_text,"%s%s\t",log_text,"AF_UNIX socket\t");
-    
-    //         struct sockaddr_un uin;
-    //         struct sockaddr_un uon;
-    //         socklen_t s_len = sizeof(uin);
-    //         if ((getsockname(sockfd, (struct sockaddr *)&uin, &s_len) != -1) &&(getpeername(sockfd, (struct sockaddr *)&uon, &s_len) != -1)){
-    //             sprintf(log_text,"%srecv from:%s\twith:%s\t recv done!\n",log_text,uon.sun_path,uin.sun_path);
-    //             log_event(log_text);
-    //         }else{
-    //             sprintf(log_text,"%s%s\n",log_text,"recv done with getsocketname errors!");
-    //             log_event(log_text);
-    //         }
-    // #endif
-    //         push_to_database("",1,"",1,getpid(),pthread_self(),"",0,F_RECV,0,len,0,sockfd,DONE_UNIX,"");
-    //     }else if(socket_family==UNKNOWN_FAMILY){
-    // #ifdef OTHER_SOCK
-    //         sprintf(log_text,"%s%s\n",log_text,"recv done but errors happend during getting socket family");
-    //         log_event(log_text);
-    // #endif
-    //         push_to_database("",1,"",1,getpid(),pthread_self(),"",0,F_RECV,0,len,0,sockfd,DONE_OTHER,"");
-    //     }else{
-    // #ifdef OTHER_SOCK
-    //         sprintf(log_text,"%s%s\t",log_text,"recv done but Unknown socket\n");
-    //         log_event(log_text);
-    // #endif
-    //         push_to_database("",1,"",1,getpid(),pthread_self(),"",0,F_RECV,0,len,0,sockfd,DONE_OTHER,"");
-    //     }
+//     else if(socket_family==AF_UNIX){
+// #ifdef OTHER_SOCK
+//         sprintf(log_text,"%s%s\t",log_text,"AF_UNIX socket\t");
+        
+//         struct sockaddr_un uin;
+//         struct sockaddr_un uon;
+//         socklen_t s_len = sizeof(uin);
+//         if ((getsockname(sockfd, (struct sockaddr *)&uin, &s_len) != -1) &&(getpeername(sockfd, (struct sockaddr *)&uon, &s_len) != -1)){
+//             sprintf(log_text,"%srecv from:%s\twith:%s\t recv done!\n",log_text,uon.sun_path,uin.sun_path);
+//             log_event(log_text);
+//         }else{
+//             sprintf(log_text,"%s%s\n",log_text,"recv done with getsocketname errors!");
+//             log_event(log_text);
+//         }
+// #endif
+//         push_to_database("",1,"",1,getpid(),pthread_self(),"",0,F_RECV,0,len,0,sockfd,DONE_UNIX,"");
+//     }else if(socket_family==UNKNOWN_FAMILY){
+// #ifdef OTHER_SOCK
+//         sprintf(log_text,"%s%s\n",log_text,"recv done but errors happend during getting socket family");
+//         log_event(log_text);
+// #endif
+//         push_to_database("",1,"",1,getpid(),pthread_self(),"",0,F_RECV,0,len,0,sockfd,DONE_OTHER,"");
+//     }else{
+// #ifdef OTHER_SOCK
+//         sprintf(log_text,"%s%s\t",log_text,"recv done but Unknown socket\n");
+//         log_event(log_text);
+// #endif
+//         push_to_database("",1,"",1,getpid(),pthread_self(),"",0,F_RECV,0,len,0,sockfd,DONE_OTHER,"");
+//     }
     
     return old_recv(sockfd, buf, len, flags);
     
@@ -294,9 +292,9 @@ ssize_t send(int sockfd, const void *buf, size_t len, int flags)
         handle = dlopen("libc.so.6", RTLD_LAZY);
         old_send = (SEND)dlsym(handle, "send");
     }
-    // if(!uuid_key){
-    //     pthread_key_create(&uuid_key,NULL);
-    // }
+    if(!uuid_key){
+        pthread_key_create(&uuid_key,NULL);
+    }
 #ifdef DEBUG
     char log_text[LOG_LENGTH]="init";
     sprintf(log_text,"%s\t","in send");
@@ -557,9 +555,9 @@ ssize_t write(int fd, const void *buf, size_t count)
         handle = dlopen("libc.so.6", RTLD_LAZY);
         old_write = (WRITE)dlsym(handle, "write");
     }
-    // if(!uuid_key){
-    //     pthread_key_create(&uuid_key,NULL);
-    // }
+    if(!uuid_key){
+        pthread_key_create(&uuid_key,NULL);
+    }
     //if fd is not a socket, return directly
     if (!is_socket(fd)){//only for log enhancement
         if(check_log(fd,count)){
@@ -568,11 +566,11 @@ ssize_t write(int fd, const void *buf, size_t count)
             char * unit_uuid=(char *)pthread_getspecific(uuid_key);
             char mark[LOG_LENGTH]="";
             sprintf(mark,"%s %ld ",unit_uuid,syscall(SYS_gettid));
-            
+
             int extra=strlen(mark);
             size_t new_len=count+extra;
             char target[new_len];
-            
+
             memmove(target,mark,extra);
             //            }
             memmove(&target[extra],buf,count);
@@ -878,9 +876,9 @@ ssize_t read(int fd, void *buf, size_t count)
     if (!is_socket(fd)){
         return old_read(fd, buf, count);
     }
-    // if(!uuid_key){
-    //     pthread_key_create(&uuid_key,NULL);
-    // }
+    if(!uuid_key){
+        pthread_key_create(&uuid_key,NULL);
+    }
 #ifdef DEBUG
     char log_text[LOG_LENGTH]="init";
     sprintf(log_text,"%s\t","in read");
@@ -1142,9 +1140,10 @@ ssize_t sendmsg(int sockfd, const struct msghdr *msg, int flags){
         handle = dlopen("libc.so.6", RTLD_LAZY);
         old_sendmsg = (SENDMSG)dlsym(handle, "sendmsg");
     }
-    // if(!uuid_key){
-    //     pthread_key_create(&uuid_key,NULL);
-    // }
+    if(!uuid_key){
+        pthread_key_create(&uuid_key,NULL);
+    }
+    log_event("in sendmsg");
     //    struct msghdr {
     //        void         *msg_name;       /* optional address */
     //        socklen_t     msg_namelen;    /* size of address */
@@ -1154,233 +1153,6 @@ ssize_t sendmsg(int sockfd, const struct msghdr *msg, int flags){
     //        size_t        msg_controllen; /* ancillary data buffer len */
     //        int           msg_flags;      /* flags on received message */
     //    };
-#ifdef DEBUG
-    char log_text[LOG_LENGTH]="init";
-    sprintf(log_text,"%s\t","in sendmsg");
-#endif
-    sa_family_t socket_family=get_socket_family(sockfd);
-    if(socket_family==AF_INET){
-#ifdef DEBUG
-        sprintf(log_text,"%s%s\t",log_text,"AF_INET socket");
-#endif
-        int tmp_erro=0;
-        struct sockaddr_in sin; //local socket info
-        struct sockaddr_in son; //remote socket into
-        socklen_t s_len = sizeof(sin);
-        unsigned short int in_port=0;
-        unsigned short int on_port=0;
-        char in_ip[256]="0.0.0.0";
-        char on_ip[256]="0.0.0.0";
-        if(getsockname(sockfd, (struct sockaddr *)&sin, &s_len) != -1){
-            char *tmp_in_ip;
-            in_port=ntohs(sin.sin_port);
-            tmp_in_ip=inet_ntoa(sin.sin_addr);
-            memmove(in_ip,tmp_in_ip,strlen(tmp_in_ip)+1);
-        }else{
-            errno=0;
-            log_important("fatal_getsock_sendmsg");
-#ifdef DEBUG
-            sprintf(log_text,"%s%s\t",log_text,"fatal_getsock_sendmsg");
-#endif
-        }
-        
-        //no connection, actually for recv, no connection now already means error
-        if(getpeername(sockfd, (struct sockaddr *)&son, &s_len) != -1){
-            char *tmp_on_ip;
-            on_port=ntohs(son.sin_port);
-            tmp_on_ip=inet_ntoa(son.sin_addr);
-            memmove(on_ip,tmp_on_ip,strlen(tmp_on_ip)+1);
-        }else{
-            errno=0;
-            log_important("fatal_getpeer_sendmsg");
-#ifdef DEBUG
-            sprintf(log_text,"%s%s\t",log_text,"fatal_getpeer_sendmsg");
-#endif
-        }
-        
-#ifdef IP_PORT
-        sprintf(log_text,"%swrite to %s:%d with %s:%d\t",log_text,on_ip,on_port,in_ip,in_port);
-#endif
-        
-        //actually this information is currently unused
-#ifdef DATA_INFO
-        //get socket buff size
-        int recv_size = 0;    /* socket接收缓冲区大小 */
-        int send_size=0;
-        socklen_t optlen;
-        optlen = sizeof(send_size);
-        if(getsockopt(fd, SOL_SOCKET, SO_SNDBUF,&send_size, &optlen)!=0){
-            sprintf(log_text,"%s%s\t",log_text,"get socket send buff failed!");
-        }
-        optlen = sizeof(recv_size);
-        if(getsockopt(fd, SOL_SOCKET, SO_RCVBUF, &recv_size, &optlen)!=0){
-            sprintf(log_text,"%s%s\t",log_text,"get socket recv buff failed!");
-        }
-#endif
-        size_t total=0;
-        int i=0;
-        for(;i<msg->msg_iovlen;i++){
-            total+=msg->msg_iov[i].iov_len;
-        }
-        size_t new_total=total+ID_LENGTH;
-        ssize_t n=0;
-#ifdef DEBUG
-        sprintf(log_text,"%ssupposed sendmsg data length:%zu\tnew data length:%lu\tsendmsg process:%u\t thread:%lu\t socketid:%d\t",log_text,total,new_total,getpid(),pthread_self(),fd);
-#endif
-        if(check_filter(on_ip,in_ip,on_port,in_port)==0){
-            
-            n=old_sendmsg(sockfd,msg,flags);
-            tmp_erro=errno;
-#ifdef FILTER
-            sprintf(log_text,"%sreturn:%ld\t%s\n",log_text,n,"sendmsg done with filter!");
-            log_event(log_text);
-#endif
-            if((on_port==80)||(in_port==80)){
-                errno=tmp_erro;
-                return n;
-            }
-            push_to_database(on_ip,on_port,in_ip,in_port,getpid(),pthread_self(),"",gettime(),F_SENDMSG,n,total,n,sockfd,SEND_FILTER,NULL);
-            errno=tmp_erro;
-            return n;
-        }
-        
-        if(with_uuid==0){//no uuid, write this message
-            
-            //#ifdef MESSAGE
-            //            log_message( (char*)buf,count,"r_writev");
-            //#endif
-            n=old_sendmsg(sockfd,msg,flags);
-            tmp_erro=errno;
-#ifdef DEBUG
-            sprintf(log_text,"%sresult:%ld\t%s\n",log_text,n,"sengmsg done without uuid!");
-            log_event(log_text);
-#endif
-            push_to_database(on_ip,on_port,in_ip,in_port,getpid(),pthread_self(),"",gettime(),F_SENDMSG,n,total,n,sockfd,SEND_NORMALLY,NULL);
-            errno=tmp_erro;
-            return n;
-        }else{
-            char buf[new_total];
-            size_t already=0;
-            
-            char id[ID_LENGTH];
-            random_uuid(id,total);
-            char tmp_id[ID_LENGTH];
-            format_uuid(id,tmp_id);
-            
-            struct iovec test;
-            test.iov_base=buf;
-            test.iov_len=new_total;
-            struct msghdr mymsg;
-            mymsg.msg_name=msg->msg_name;
-            mymsg.msg_namelen=msg->msg_namelen;
-            mymsg.msg_iov=&test;
-            mymsg.msg_iovlen=1;
-            mymsg.msg_control=msg->msg_control;
-            mymsg.msg_controllen=msg->msg_controllen;
-            mymsg.msg_flags=msg->msg_flags;
-            
-            if(mymsg.msg_controllen!=0){
-                log_important("fatal_control_sendmsg");
-            }
-            
-            memmove(&buf[already],id,ID_LENGTH);
-            already+=ID_LENGTH;
-            
-            int ori_iovlen=msg->msg_iovlen;
-            struct iovec* ori_iov=msg->msg_iov;
-            int j=0;
-            for(;j<ori_iovlen;j++){
-                memmove(&buf[already],ori_iov[j].iov_base,ori_iov[j].iov_len);
-                already+=ori_iov[j].iov_len;
-            }
-            
-            
-            n=old_sendmsg(sockfd,&mymsg,flags);
-            tmp_erro=errno;
-            errno=0;
-            
-            while((n!=new_total)&&((tmp_erro==0)||(tmp_erro==EAGAIN)||(tmp_erro==EWOULDBLOCK))){
-                
-                ssize_t tmpValue=0;
-                if(n!=-1){
-                    test.iov_base=&buf[n];
-                    test.iov_len=new_total-n;
-                    tmpValue=old_sendmsg(sockfd,&mymsg,flags);
-                }else{
-                    tmpValue=old_sendmsg(sockfd,&mymsg,flags);
-                }
-                tmp_erro=errno;
-                char tmp[LOG_LENGTH];
-                sprintf(tmp,"sendmsg\tn:%ld\terro:%d\ttmp:%ld\n",n,tmp_erro,tmpValue);
-                log_event(tmp);
-                
-                if(tmpValue>=0){
-                    if(n>0){
-                        n+=tmpValue;
-                    }else{
-                        n=tmpValue;
-                    }
-                    
-                }
-            }
-            
-            
-            //            size_t new_len=myiov[0].iov_len+ID_LENGTH;
-            //            char target[new_len];
-            //
-            //            memmove(&target,id,ID_LENGTH);
-            //            memmove(&target[ID_LENGTH],myiov[0].iov_base,myiov[0].iov_len);
-            //            myiov[0].iov_len=new_len;
-            //            myiov[0].iov_base=&target;
-            //            errno=0;
-            
-            
-            //            struct msghdr mymsg;
-            //            mymsg.msg_name=msg->msg_name;
-            //            mymsg.msg_namelen=msg->msg_namelen;
-            //            mymsg.msg_iov=myiov;
-            //            mymsg.msg_iovlen=msg->msg_iovlen;
-            //            mymsg.msg_control=msg->msg_control;
-            //            mymsg.msg_controllen=msg->msg_controllen;
-            //            mymsg.msg_flags=msg->msg_flags;
-            //
-            //            if(mymsg.msg_controllen!=0){
-            //                log_important("sendmsg extra len error");
-            //            }
-            //
-            //            ssize_t n=old_sendmsg(sockfd,&mymsg,flags);
-            //            tmp_erro=errno;
-            //            errno=0;
-#ifdef DEBUG
-            
-            sprintf(log_text,"%s\tuuid:%s\tarray:%d\ttotal:%lu\treal sendmsg:%ld\treturn:%ld\t",log_text,tmp_id,mymsg.msg_iovlen,total,n,n-ID_LENGTH);
-#endif
-            if(n!=new_total){
-                //should deal with this situation
-#ifdef DEBUG
-                sprintf(log_text,"%s\tfailed!\n",log_text);
-                log_event(log_text);
-#endif
-                log_important("fatal_short_sendmsg");
-                push_to_database(on_ip,on_port,in_ip,in_port,getpid(),pthread_self(),tmp_id,gettime(),F_SENDMSG,n,total,n,sockfd,SEND_FAIL,NULL);
-                errno=tmp_erro;
-                
-                return n;
-            }else{
-#ifdef DEBUG
-                sprintf(log_text,"%s\tsuccess!\n",log_text);
-                log_event(log_text);
-#endif
-                push_to_database(on_ip,on_port,in_ip,in_port,getpid(),pthread_self(),tmp_id,gettime(),F_SENDMSG,n,total,total,sockfd,SEND_ID,NULL);
-                
-                errno=tmp_erro;
-                return total;
-            }
-        }
-        
-    }
-    
-    //    return old_writev(fd,iov,iovcnt);
     return old_sendmsg(sockfd,msg,flags);
     
 }
@@ -1394,10 +1166,9 @@ ssize_t recvfrom(int sockfd, void *buf, size_t len, int flags,struct sockaddr *s
         handle = dlopen("libc.so.6", RTLD_LAZY);
         old_recvfrom = (RECVFROM)dlsym(handle, "recvfrom");
     }
-    // if(!uuid_key){
-    //     pthread_key_create(&uuid_key,NULL);
-    // }
-    
+    if(!uuid_key){
+        pthread_key_create(&uuid_key,NULL);
+    }
     //    log_important("in recvfrom");
     return old_recvfrom (sockfd,buf,len,flags,src_addr,addrlen);
 }
@@ -1411,260 +1182,10 @@ ssize_t recvmsg(int sockfd, struct msghdr *msg, int flags){
         handle = dlopen("libc.so.6", RTLD_LAZY);
         old_recvmsg = (RECVMSG)dlsym(handle, "recvmsg");
     }
-    // if(!uuid_key){
-    //     pthread_key_create(&uuid_key,NULL);
-    // }
-#ifdef DEBUG
-    char log_text[LOG_LENGTH]="init";
-    sprintf(log_text,"%s\t","in recvmsg");
-#endif
-    //check socket type first
-    sa_family_t socket_family=get_socket_family(sockfd);
-    //currently only support for IPv4
-    if (socket_family==AF_INET){
-#ifdef DEBUG
-        sprintf(log_text,"%s%s\t",log_text,"AF_INET socket");
-#endif
-        int tmp_erro=0;
-        struct sockaddr_in sin; //local socket info
-        struct sockaddr_in son; //remote socket into
-        socklen_t s_len = sizeof(sin);
-        unsigned short int in_port=0;
-        unsigned short int on_port=0;
-        char in_ip[256]="0.0.0.0";
-        char on_ip[256]="0.0.0.0";
-        if(getsockname(sockfd, (struct sockaddr *)&sin, &s_len) != -1){
-            char *tmp_in_ip;
-            in_port=ntohs(sin.sin_port);
-            tmp_in_ip=inet_ntoa(sin.sin_addr);
-            memmove(in_ip,tmp_in_ip,strlen(tmp_in_ip)+1);
-        }else{
-            errno=0;
-            log_important("fatal_getsock_recvmsg");
-#ifdef DEBUG
-            sprintf(log_text,"%s%s\t",log_text,"fatal_getsock_recvmsg");
-#endif
-        }
-        
-        //no connection, actually for recv, no connection now already means error
-        if(getpeername(sockfd, (struct sockaddr *)&son, &s_len) != -1){
-            char *tmp_on_ip;
-            on_port=ntohs(son.sin_port);
-            tmp_on_ip=inet_ntoa(son.sin_addr);
-            memmove(on_ip,tmp_on_ip,strlen(tmp_on_ip)+1);
-        }else{
-            errno=0;
-            log_important("fatal_getpeer_recvmsg");
-#ifdef DEBUG
-            sprintf(log_text,"%s%s\t",log_text,"fatal_getpeer_recvmsg");
-#endif
-        }
-        
-#ifdef IP_PORT
-        sprintf(log_text,"%srecv from %s:%d with %s:%d\t",log_text,on_ip,on_port,in_ip,in_port);
-#endif
-        
-        //actually this information is currently unused
-#ifdef DATA_INFO
-        //get socket buff size
-        int recv_size = 0;    /* socket接收缓冲区大小 */
-        int send_size=0;
-        socklen_t optlen;
-        optlen = sizeof(send_size);
-        if(getsockopt(sockfd, SOL_SOCKET, SO_SNDBUF,&send_size, &optlen)!=0){
-            sprintf(log_text,"%s%s\t",log_text,"get socket send buff failed!");
-        }
-        optlen = sizeof(recv_size);
-        if(getsockopt(sockfd, SOL_SOCKET, SO_RCVBUF, &recv_size, &optlen)!=0){
-            sprintf(log_text,"%s%s\t",log_text,"get socket recv buff failed!");
-        }
-#endif
-#ifdef DEBUG
-        sprintf(log_text,"%srecvmsg process:%u\t thread:%lu\t socketid:%d\trequired:%lu\t",log_text,getpid(),pthread_self(),sockfd,len);
-#endif
-        //for filtered service
-        ssize_t n=0;
-        if(check_filter(on_ip,in_ip,on_port,in_port)==0){
-            
-            n=old_recvmsg(sockfd,msg,flags);
-            tmp_erro=errno;
-#ifdef FILTER
-            sprintf(log_text,"%sresult:%ld\t%s\n",log_text,n,"recvmsg done with filter!");
-            log_event(log_text);
-#endif
-            //currently saved to local file, unused
-            if((on_port==80)||(in_port==80)){
-                return n;
-            }
-            push_to_database(on_ip,on_port,in_ip,in_port,getpid(),pthread_self(),"",gettime(),F_RECVMSG,n,n,n,sockfd,RECV_FILTER,NULL);
-            errno=tmp_erro;
-            return n;
-        }
-        
-        
-        //not modify messages, just record
-        if (with_uuid==0){
-            n=old_recvmsg(sockfd,msg,flags);
-            tmp_erro=errno;
-#ifdef DEBUG
-            sprintf(log_text,"%sreal recvmsg:%ld\tresult:%ld\t",log_text,n,n);
-#endif
-            //if errors happened during recv, then return the error result directly
-            //            if(n<=0){
-            //#ifdef DEBUG
-            //                sprintf(log_text,"%s%s\t%s\n",log_text,strerror(errno),"recv done with recv error!");
-            //                log_event(log_text);
-            //#endif
-            //                push_to_database(on_ip,on_port,in_ip,in_port,getpid(),pthread_self(),"",gettime(),F_RECV,n,len,n,sockfd,RECV_ERROR,buf);
-            //                errno=tmp_erro;
-            //                return n;
-            //            }
-            
-            //#ifdef MESSAGE
-            //            log_message(buf,n,"r_recvmsg");
-            //#endif
-#ifdef DEBUG
-            sprintf(log_text,"%s%s\n",log_text,"recvmsg done without uuid!");
-            log_event(log_text);
-#endif
-            push_to_database(on_ip,on_port,in_ip,in_port,getpid(),pthread_self(),"",gettime(),F_RECVMSG,n,n,n,sockfd,RECV_NORMALLY,NULL);
-            errno=tmp_erro;
-            return n;
-        }else{
-            
-            
-            ssize_t n=0;
-            size_t left=op_storage(S_GET,sockfd,0);
-            int ori_iovlen=msg->msg_iovlen;
-            struct iovec  * ori_iov=msg->msg_iov;
-            size_t length=0;
-            int k=0;
-            for(;k<ori_iovlen;k++){
-                length+=ori_iov[k].iov_len;
-            }
-            
-            //read left
-            if(left!=0){
-                n=check_recvmsg_rest(msg,sockfd,left,length,flags);
-                tmp_erro=errno;
-                if(n<=0){
-                    log_important("note_less0_recvmsg");
-                    push_to_database(on_ip,on_port,in_ip,in_port,getpid(),pthread_self(),"",gettime(),F_RECVMSG,n,length,n,sockfd,RECV_FAIL,NULL);
-                    errno=tmp_erro;
-                    return n;
-                }else{
-                    push_to_database(on_ip,on_port,in_ip,in_port,getpid(),pthread_self(),"",gettime(),F_RECVMSG,n,length,n,sockfd,RECV_LEFT,NULL);
-                    errno=tmp_erro;
-                    return n;
-                }
-                
-            }
-            
-            //read head
-            //for efficiency, when read head return -1, we directy return to upper application, do not wait
-            char uuids[ID_LENGTH];
-            size_t original_length=0;
-            
-            struct iovec test;
-            test.iov_base=uuids;
-            test.iov_len=ID_LENGTH;
-            
-            msg->msg_iov=&test;
-            msg->msg_iovlen=1;
-            
-            n=old_recvmsg(sockfd,msg,flags);
-            tmp_erro=errno;
-            
-            if((n!=-1)&&(n!=ID_LENGTH)){//n<ID_LENGTH
-                while((n!=ID_LENGTH)&&((tmp_erro==0)||(tmp_erro==EAGAIN)||(tmp_erro==EWOULDBLOCK))){
-                    ssize_t tmpValue=0;
-                    if(n!=-1){
-                        test.iov_base=&uuids[n];
-                        test.iov_len=ID_LENGTH-n;
-                        tmpValue=old_recvmsg(sockfd,msg,flags);
-                    }else{
-                        tmpValue=old_recvmsg(sockfd,msg,flags);
-                    }
-                    tmp_erro=errno;
-                    //                    char tmp[LOG_LENGTH];
-                    //                    sprintf(tmp,"recvmsg_head\tn:%ld\terro:%d\ttmp:%ld\n",n,tmp_erro,tmpValue);
-                    //                    log_event(tmp);
-                    if (tmpValue>=0){
-                        if(n>0){
-                            n+=tmpValue;
-                        }else{
-                            n=tmpValue;
-                        }
-                    }
-                }
-            }
-            
-            if(n==0){
-                log_important("fatal_shorthead2_readhead");
-                push_to_database(on_ip,on_port,in_ip,in_port,getpid(),pthread_self(),"",gettime(),F_RECVMSG,0,0,0,sockfd,RECV_HEADERR,NULL);
-                errno=tmp_erro;
-                msg->msg_iov=ori_iov;
-                msg->msg_iovlen=ori_iovlen;
-                return 0;
-            }else if(n==-1){
-                push_to_database(on_ip,on_port,in_ip,in_port,getpid(),pthread_self(),"",gettime(),F_RECVMSG,-1,-1,-1,sockfd,RECV_HEADFAIL,NULL);
-                errno=tmp_erro;
-                msg->msg_iov=ori_iov;
-                msg->msg_iovlen=ori_iovlen;
-                return -1;
-            }else if((n<ID_LENGTH)&&(n>0)){
-                log_important("fatal_shorthead_readhead");
-                log_message(uuids,n,"check2");
-                push_to_database(on_ip,on_port,in_ip,in_port,getpid(),pthread_self(),"",gettime(),F_RECVMSG,0,0,0,sockfd,RECV_HEADERR,NULL);
-                msg->msg_iov=ori_iov;
-                msg->msg_iovlen=ori_iovlen;
-                errno=tmp_erro;
-                return 0;//actually we should deal wth the rest of DATA_ID, and even if it's not a ID (from writev)
-            }else{//n==ID_LENGTH
-                if((uuids[0]=='@')&&(uuids[ID_LENGTH-2]=='@')&&(uuids[ID_LENGTH-1]=='\0')){
-                    
-                    original_length=*((size_t *)&uuids[1]);
-                    int i=0;
-                    for(;i<sizeof(original_length);i++){
-                        uuids[i+1]='-';//just for print
-                    }
-                    errno=0;
-                }else{//if it's not ID
-                    original_length=0;
-                    log_message(uuids,ID_LENGTH,"check1");
-                    errno=0;
-                }
-            }
-            
-            
-            if(original_length==0){//we haven't added ID to the other event, we should deal with this siutation in the future
-                log_important("faltal_noid_recvmsg");
-                msg->msg_iov=ori_iov;
-                msg->msg_iovlen=ori_iovlen;
-                return 0;
-            }else{
-                msg->msg_iov=ori_iov;
-                msg->msg_iovlen=ori_iovlen;
-                
-                n=check_recvmsg_rest(msg,sockfd,original_length,length,flags);
-                tmp_erro=errno;
-                if(n<=0){
-                    log_important("note_less1_recvmsg");
-                    push_to_database(on_ip,on_port,in_ip,in_port,getpid(),pthread_self(),"",gettime(),F_RECVMSG,original_length,length,n,sockfd,RECV_FAIL,NULL);
-                    errno=tmp_erro;
-                    return n;
-                }else{
-                    char tmp_id[ID_LENGTH];
-                    format_uuid(uuids,tmp_id);
-                    
-                    push_to_database(on_ip,on_port,in_ip,in_port,getpid(),pthread_self(),tmp_id,gettime(),F_RECVMSG,original_length,length,n,sockfd,RECV_ID,NULL);
-                    errno=tmp_erro;
-                    return n;
-                }
-                
-            }
-        }
+    if(!uuid_key){
+        pthread_key_create(&uuid_key,NULL);
     }
+    log_important("in recvmsg");
     
     return old_recvmsg(sockfd,msg,flags);
 }
@@ -1678,9 +1199,9 @@ int sendmmsg(int sockfd, struct mmsghdr *msgvec, unsigned int vlen, int flags){
         handle = dlopen("libc.so.6", RTLD_LAZY);
         old_sendmmsg = (SENDMMSG)dlsym(handle, "sendmmsg");
     }
-    // if(!uuid_key){
-    //     pthread_key_create(&uuid_key,NULL);
-    // }
+    if(!uuid_key){
+        pthread_key_create(&uuid_key,NULL);
+    }
     //    if  ((getsockname(sockfd, (struct sockaddr *)&sin, &s_len) != -1) &&(getpeername(sockfd, (struct sockaddr *)&son, &s_len) != -1)){
     log_important("in sendmmsg\n");
     //        return old_sendmmsg(sockfd,msgvec,vlen,flags);
@@ -1713,9 +1234,9 @@ ssize_t sendfile(int out_fd, int in_fd, off_t *offset, size_t count){
         handle = dlopen("libc.so.6", RTLD_LAZY);
         old_sendfile = (SENDFILE)dlsym(handle, "sendfile");
     }
-    // if(!uuid_key){
-    //     pthread_key_create(&uuid_key,NULL);
-    // }
+    if(!uuid_key){
+        pthread_key_create(&uuid_key,NULL);
+    }
     if(is_socket(out_fd)){
         log_important("in sendfile");
     }
@@ -1733,9 +1254,9 @@ ssize_t sendfile64(int out_fd, int in_fd, off64_t *offset, size_t count){
         old_sendfile64 = (SENDFILE64)dlsym(handle, "sendfile64");
         old_write=(WRITE)dlsym(handle,"write");
     }
-    // if(!uuid_key){
-    //     pthread_key_create(&uuid_key,NULL);
-    // }
+    if(!uuid_key){
+        pthread_key_create(&uuid_key,NULL);
+    }
     if(is_socket(in_fd)){
         log_important("note_insock_sendfile64");
     }
@@ -1979,9 +1500,9 @@ ssize_t readv(int fd, const struct iovec *iov, int iovcnt){
         handle = dlopen("libc.so.6", RTLD_LAZY);
         old_readv = (READV)dlsym(handle, "readv");
     }
-    // if(!uuid_key){
-    //     pthread_key_create(&uuid_key,NULL);
-    // }
+    if(!uuid_key){
+        pthread_key_create(&uuid_key,NULL);
+    }
     if (is_socket(fd)){
         
     }
@@ -1998,9 +1519,9 @@ ssize_t writev(int fd, const struct iovec *iov, int iovcnt){
         handle = dlopen("libc.so.6", RTLD_LAZY);
         old_writev = (WRITEV)dlsym(handle, "writev");
     }
-    // if(!uuid_key){
-    //     pthread_key_create(&uuid_key,NULL);
-    // }
+    if(!uuid_key){
+        pthread_key_create(&uuid_key,NULL);
+    }
     if (!is_socket(fd)){
         return old_writev(fd,iov,iovcnt);
     }
@@ -2099,9 +1620,9 @@ ssize_t writev(int fd, const struct iovec *iov, int iovcnt){
         
         if(with_uuid==0){//no uuid, write this message
             
-            //#ifdef MESSAGE
-            //            log_message( (char*)buf,count,"r_writev");
-            //#endif
+#ifdef MESSAGE
+            log_message( (char*)buf,count,"r_writev");
+#endif
             n=old_writev(fd,iov,iovcnt);
             tmp_erro=errno;
 #ifdef DEBUG
@@ -2192,14 +1713,10 @@ void *intermedia(void * arg){
     //    char test[1024]="";
     //    sprintf(test,"1new ptid:%ld\ttid:%lu\tkey:%u\tvalue:%s\n",syscall(SYS_gettid),pthread_self(),uuid_key,(char*)pthread_getspecific(uuid_key));
     //    log_message(test,strlen(test));
-    int tmp_erro=errno;
-    long int ktid=syscall(SYS_gettid);
-    push_thread_db(getpid(),ktid,pthread_self(),temp->ppid,temp->pktid,temp->ptid,temp->ttime);
-    errno=tmp_erro;
     
-    void * tmp=temp->start_routine(temp->args);
-    free(temp);
-    return tmp;
+    push_thread_db(getpid(),syscall(SYS_gettid),pthread_self(),temp->ppid,temp->pktid,temp->ptid,temp->ttime);
+    
+    return temp->start_routine(temp->args);
     //    return (*start_routine)(args);
     
     
@@ -2240,15 +1757,11 @@ int  pthread_create(pthread_t  *thread,  const pthread_attr_t  *attr,  void  *(*
     temp->uuid=(char *)pthread_getspecific(uuid_key);
     temp->args=arg;
     temp->start_routine=start_routine;
-    long int pktid=syscall(SYS_gettid);
     temp->ppid=getpid();
-    temp->pktid=pktid;
+    temp->pktid=syscall(SYS_gettid);
     temp->ptid=tmp;
     temp->ttime=gettime();
     
-//    char tmp_log[1024];
-//    sprintf(tmp_log,"ppid:%ld\tpktid:%ld\ttemp->ppid:%ld\ttemp->pktid:%ld\n",getpid(),syscall(SYS_gettid),temp->ppid,temp->pktid);
-//    log_event(tmp_log);
     
     int result=old_create(thread,attr,intermedia,(void *)temp);
     
@@ -2264,7 +1777,6 @@ int  pthread_create(pthread_t  *thread,  const pthread_attr_t  *attr,  void  *(*
 }
 
 int pthread_join(pthread_t thread, void **retval){
-    init_context();
     static void *handle = NULL;
     static P_JOIN old_join=NULL;
     if( !handle )
@@ -2299,7 +1811,7 @@ pid_t fork(void){
     
     char *uuid=(char *)pthread_getspecific(uuid_key);
     char parameter[1024]="";
-    sprintf(parameter,"ppid=%d&pktid=%ld&ptid=%lu&ttime=%lld&rtype=%d&unit_uuid=%s&",getpid(),syscall(SYS_gettid),pthread_self(),gettime(),R_THREAD,uuid);
+    sprintf(parameter,"ppid=%d&pktid=%ld&ptid=%lu&ttime=%lld&rtype=%d&",getpid(),syscall(SYS_gettid),pthread_self(),gettime(),R_THREAD);
     
     pid_t result=old_fork();
     if(result==0){
@@ -2336,7 +1848,7 @@ pid_t vfork(void){
     
     char *uuid=(char *)pthread_getspecific(uuid_key);
     char parameter[1024]="";
-    sprintf(parameter,"ppid=%d&pktid=%ld&ptid=%lu&ttime=%lld&rtype=%d&unit_uuid=%s&",getpid(),syscall(SYS_gettid),pthread_self(),gettime(),R_THREAD,uuid);
+    sprintf(parameter,"ppid=%d&pktid=%ld&ptid=%lu&ttime=%lld&rtype=%d&",getpid(),syscall(SYS_gettid),pthread_self(),gettime(),R_THREAD);
     
     
     pid_t result=old_fork();
@@ -2841,43 +2353,58 @@ int get_own_env(char *env){
 
 
 //result in unknown fault, resource manager cannot start
-int connect(int socket, const struct sockaddr *addr, socklen_t length)
-{
-    init_context();
-    static void *handle = NULL;
-    static CONN old_conn = NULL;
-
-    if( !handle )
-    {
-        handle = dlopen("libc.so.6", RTLD_LAZY);
-        old_conn = (CONN)dlsym(handle, "connect");
-    }
-
-    int result=old_conn(socket,addr,length);
-    int tmp_erro=errno;
-
-    push_event_to_database(F_CONNECT,result,gettime(),getpid(),syscall(SYS_gettid),pthread_self());
-    errno=tmp_erro;
-    return result;
-}
-
-int accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen){
-    init_context();
-    static void *handle = NULL;
-    static ACCEPT old_accept = NULL;
-
-    if( !handle )
-    {
-        handle = dlopen("libc.so.6", RTLD_LAZY);
-        old_accept = (ACCEPT)dlsym(handle, "accept");
-    }
-    int result=old_accept(sockfd,addr,addrlen);
-    int tmp_erro=errno;
-
-    push_event_to_database(F_ACCEPT,result,gettime(),getpid(),syscall(SYS_gettid),pthread_self());
-    errno=tmp_erro;
-    return result;
-}
+//int connect(int socket, const struct sockaddr *addr, socklen_t length)
+//{
+//    static void *handle = NULL;
+//    static CONN old_conn = NULL;
+//    struct sockaddr_in sin;
+//    struct sockaddr_in son;
+//    socklen_t s_len = sizeof(sin);
+//    if( !handle )
+//    {
+//        handle = dlopen("libc.so.6", RTLD_LAZY);
+//        old_conn = (CONN)dlsym(handle, "connect");
+//    }
+//    if  ((getsockname(socket, (struct sockaddr *)&sin, &s_len) != -1) &&(getpeername(socket, (struct sockaddr *)&son, &s_len) != -1)){
+//        unsigned short int in_port;
+//        unsigned short int on_port;
+//        char in_ip[256];
+//        char on_ip[256];
+//        char *tmp_in_ip;
+//        char *tmp_on_ip;
+//        in_port=ntohs(sin.sin_port);
+//        on_port=ntohs(son.sin_port);
+//        tmp_in_ip=inet_ntoa(sin.sin_addr);
+//        memmove(in_ip,tmp_in_ip,strlen(tmp_in_ip)+1);
+//        tmp_on_ip=inet_ntoa(son.sin_addr);
+//        memmove(on_ip,tmp_on_ip,strlen(tmp_on_ip)+1);
+//        char log_text[LOG_LENGTH]="init";
+//#ifdef CONNECT
+//        sprintf(log_text,"%s\t","in connect");
+//        sprintf(log_text,"connect to %s:%d with %s:%d\t",on_ip,on_port,in_ip,in_port);
+//#endif
+//
+//        // filter our own service, db and controller
+//        if (check_filter(on_ip,in_ip,on_port,in_port)==0){
+//#ifdef CONNECT
+//            sprintf(log_text,"%s\t%s\n",log_text,"connect done with filter!");
+//            log_event(log_text);
+//#endif
+//            return old_conn(socket, addr, length);
+//        }else{
+//
+//            sprintf(log_text,"%s\t%s\n",log_text,"connect done!");
+//            log_event(log_text);
+//            //            printf("%s\n", "in conn filter1");
+//            //            mark_socket_connect(socket);
+//            //            printf("%s\n", "in conn filter2");
+//            return old_conn(socket, addr, length);
+//
+//        }
+//
+//    }
+//    return old_conn(socket, addr, length);
+//}
 
 //result in *** stack smashing detected ***: ssh terminated
 //int close(int fd)
@@ -2984,7 +2511,7 @@ size_t op_storage(int type,int sockfd,size_t left){
                 buffer_storage[i]->used=1;
                 buffer_storage[i]->sockfd=sockfd;
                 buffer_storage[i]->left=left;
-//                                log_message("save",5,"operate");
+                //                log_message("save",5,"operate");
                 //                char tmp[1024]="";
                 //                sprintf(tmp,"socket:%d\tput:%ld!\n",sockfd,left);
                 //                log_message3(tmp,strlen(tmp));
@@ -3009,7 +2536,7 @@ size_t op_storage(int type,int sockfd,size_t left){
                 buffer_storage[i]->used=0;
                 buffer_storage[i]->left=0;
                 //                sprintf(tmp,"%s\treturn:%lu\n!",tmp,result);
-//                                log_message("load",5,"operate");
+                //                log_message("load",5,"operate");
                 //                log_message3(tmp,strlen(tmp));
                 return result;
             }
@@ -3396,9 +2923,9 @@ void log_message(char message[],int length, const char * flag){
 //return 0, if this message is recv/send from outer host/port and it should be recv/send directly
 //return 1, if this message is internal message
 int check_filter(char* on_ip,char* in_ip,int on_port,int in_port){
-
+    int ip_list_length=4;
     int port_list_length=3;
-
+    char *legal_ip_list[]={"127.0.0.1","10.211.55.36","10.211.55.37","10.211.55.38"};
     int illegal_port_list[]={22,53,80};
     int i=0;
     short internal_on_ip=0;
@@ -3546,7 +3073,7 @@ int push_to_database(char* on_ip,int on_port,char* in_ip, int in_port,pid_t pid,
         }
     }else{//send
         if (uuid!=""){
-            char * unit_uuid=malloc(ID_LENGTH);
+                char * unit_uuid=malloc(ID_LENGTH);
             memmove(unit_uuid,uuid,ID_LENGTH);
             //            free(original_unit);
             pthread_setspecific(uuid_key,(void *)unit_uuid);
@@ -3605,34 +3132,23 @@ int push_to_database(char* on_ip,int on_port,char* in_ip, int in_port,pid_t pid,
 }
 
 //type=27
-int push_thread_db(long int pid,long int ktid,pthread_t tid,long int ppid,long int pktid, pthread_t ptid,long long time){
+int push_thread_db(pid_t pid,pid_t ktid,pthread_t tid,pid_t ppid,pid_t pktid, pthread_t ptid,long long time){
     // To do
-    int tmp_erro=errno;
     char * original_unit=(char *)pthread_getspecific(uuid_key);
     char tmp_unit[ID_LENGTH];
     memmove(tmp_unit,original_unit,ID_LENGTH);
-    char * parameter_tmp="pid=%ld&ktid=%ld&tid=%lu&ppid=%ld&pktid=%ld&ptid=%lu&ttime=%lld&rtype=%d&unit_uuid=%s";
-    char parameter[2048];
+    char * parameter_tmp="pid=%ld&ktid=%ld&tid=%lu&ppid=%ld&pktid=%ld&ptid=%lu&ttime=%lld&rtype=%d&unit_uuit=%s";
+    char parameter[1024];
     sprintf(parameter,parameter_tmp,pid,ktid,tid,ppid,pktid,ptid,time,R_THREAD,tmp_unit);
     //    log_message(parameter,strlen(parameter));
-    
-    
-//    char tmp_log[1024];
-//    sprintf(tmp_log,"start:%d-pre:%d-pid=%ld-ktid=%ld-ppid=%ld-pktid=%ld-ptid=%lu-ttime=%lld",tmp_erro,errno,pid,ktid,ppid,pktid,ptid,time);
-//    log_event(tmp_log);
-//    sprintf(tmp_log,"after:%d\n",errno);
-//    log_event(tmp_log);
-    
     return getresponse(parameter);
-    
     //    return 0;
 }
 //type=28
 int push_thread_dep(pid_t pid,pid_t ktid,pthread_t dtid,pthread_t jtid,long long time){
-    char * original_unit=(char *)pthread_getspecific(uuid_key);
-    char * parameter_tmp="pid=%ld&ktid=%ld&dtid=%lu&jtid=%lu&ttime=%lld&rtype=%d&unit_uuid=%s";
-    char parameter[2048];
-    sprintf(parameter,parameter_tmp,pid,ktid,dtid,jtid,time,R_THREAD_DEP,original_unit);
+    char * parameter_tmp="pid=%ld&ktid=%ld&dtid=%lu&jtid=%lu&ttime=%lld&rtype=%d";
+    char parameter[1024];
+    sprintf(parameter,parameter_tmp,pid,ktid,dtid,jtid,time,R_THREAD_DEP);
     //    log_message(parameter,strlen(parameter));
     return getresponse(parameter);
     //    return 0;
@@ -3650,15 +3166,6 @@ int push_thread_db2(char *parameter){
     //    return 0;
 }
 
-//type=29
-int push_event_to_database(int event_type,int result,long long time,pid_t process,pid_t ktid,pthread_t tid){
-
-    char * parameter_tmp="ftype=%d&result=%d&ltime=%lld&pid=%u&ktid=%u&tid=%lu&unit_uuid=%s&rtype=%d";
-    char * original_unit=(char *)pthread_getspecific(uuid_key);
-    char parameter[2048];
-    sprintf(parameter, parameter_tmp,event_type,result,time,process,ktid,tid,original_unit,R_EVENT);
-    return getresponse(parameter);
-}
 
 
 ////type=25
@@ -3755,98 +3262,6 @@ ssize_t check_read_header(char *uuids,int sockfd,size_t* length,int flags){
     
 }
 
-ssize_t check_recvmsg_rest(struct msghdr* msg,int sockfd,size_t length,size_t buf_len,int flags){
-    static void *handle = NULL;
-    static RECVMSG old_recvmsg = NULL;
-    if( !handle )
-    {
-        handle = dlopen("libc.so.6", RTLD_LAZY);
-        old_recvmsg = (RECVMSG)dlsym(handle, "recvmsg");
-    }
-    int tmp_erro=0;
-    struct iovec* ori_iov=msg->msg_iov;
-    int ori_iovlen=msg->msg_iovlen;
-    //    size_t buf_len=0;
-    //    int i=0;
-    //    for(;i<ori_iovlen;i++){
-    //        buf_len+=ori_iov[i].iov_len;
-    //    }
-    
-    size_t limit=length;
-    if(length>buf_len){
-        limit=buf_len;
-    }
-    
-    struct iovec test;
-    char buf[limit];
-    test.iov_base=buf;
-    test.iov_len=limit;
-    msg->msg_iov=&test;
-    msg->msg_iovlen=1;
-    
-    ssize_t n=old_recvmsg(sockfd,msg,flags);
-    tmp_erro=errno;
-    
-    while((n!=limit)&&((tmp_erro==0)||(tmp_erro==EAGAIN)||(tmp_erro==EWOULDBLOCK))){
-        ssize_t tmpValue=0;
-        if(n!=-1){
-            test.iov_base=&buf[n];
-            test.iov_len=limit-n;
-            tmpValue=old_recvmsg(sockfd,msg,flags);
-        }else{
-            tmpValue=old_recvmsg(sockfd,msg,flags);
-        }
-        tmp_erro=errno;
-        
-        if (tmpValue>=0){
-            if(n>0){
-                n+=tmpValue;
-            }else{
-                n=tmpValue;
-            }
-        }
-    }
-    
-    if(n==limit){
-        if(limit==buf_len){
-            op_storage(S_PUT,sockfd,length-buf_len);
-        }
-        size_t left=limit;
-        int j=0;
-        for(;j<ori_iovlen;j++){
-            if(left>ori_iov[j].iov_len){
-                memmove(ori_iov[j].iov_base,&buf[limit-left],ori_iov[j].iov_len);
-                left=left-ori_iov[j].iov_len;
-            }else{
-                memmove(ori_iov[j].iov_base,&buf[limit-left],left);
-                break;
-            }
-        }
-        msg->msg_iov=ori_iov;
-        msg->msg_iovlen=ori_iovlen;
-        return limit;
-    }else if(n==-1){
-        log_important("note_less0_readrecvrest");
-        errno=tmp_erro;
-        msg->msg_iov=ori_iov;
-        msg->msg_iovlen=ori_iovlen;
-        return -1;
-    }else if(n==0){
-        log_important("note_less1_readrecvrest");
-        errno=tmp_erro;
-        msg->msg_iov=ori_iov;
-        msg->msg_iovlen=ori_iovlen;
-        return 0;
-    }else{//n>0 n<limit
-        //        log_important("note_less2_readrecvrest");
-        op_storage(S_PUT,sockfd,length-n);
-        errno=tmp_erro;
-        msg->msg_iov=ori_iov;
-        msg->msg_iovlen=ori_iovlen;
-        return n;
-    }
-}
-
 ssize_t check_read_rest(char * buf,int sockfd,size_t length, size_t count, int flags){
     static void *handle = NULL;
     static RECV old_recv = NULL;
@@ -3912,14 +3327,14 @@ ssize_t check_read_rest(char * buf,int sockfd,size_t length, size_t count, int f
         if(result==length){
             return result;
         }else if(result==-1){
-            log_important("note_less0_readrest");
+            //            log_event("in read rest error");
             errno=tmp_erro;
             return -1;
         }else if(result==0){
-            log_important("note_less1_readrest");
+            //            log_event("in read rest error1");
             return 0;
         }else{
-            //            log_important("note_less2_readrest");
+            //            log_event("in read rest error2");
             op_storage(S_PUT,sockfd,length-result);
             errno=tmp_erro;
             return result;

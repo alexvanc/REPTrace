@@ -67,7 +67,6 @@
 #define R_MARK_SOCK 26
 #define R_THREAD 27
 #define R_THREAD_DEP 28
-#define R_EVENT 29
 
 
 
@@ -90,12 +89,6 @@
 #define F_CLOSE 15
 #define F_SEND64 17
 #define F_SENDFILE 19
-#define F_ACCEPT 20
-#define F_FORK 21
-#define F_VFORK 22
-#define F_PTCREATE 23
-#define F_PTJOIN 24
-
 
 
 
@@ -187,13 +180,8 @@ typedef ssize_t(*WRITEV)(int fd, const struct iovec *iov, int iovcnt);
 
 typedef void *(*DLSYM)(void *handle, const char *symbol);
 
-//socket
 typedef int(*SOCKET)(int domain, int type, int protocol);
-//connect
 typedef int(*CONN)(int socket, const struct sockaddr *addr, socklen_t length);
-//accept
-typedef int(*ACCEPT)(int sockfd, struct sockaddr *addr, socklen_t *addrlen);
-//close
 typedef int(*CLOSE)(int fd);
 
 typedef int(*P_CREATE)(pthread_t *thread, const pthread_attr_t *attr,void *(*start_routine) (void *), void *arg);
@@ -258,12 +246,7 @@ int push_to_local_database(char*,int,char*,int,pid_t,pthread_t,char*,long long,c
 int push_to_database(char*,int,char*,int,pid_t,pthread_t,char*,long long,char,long,long,long,int,char,const char *);
 
 //send the message to the central db directly
-int push_event_to_database(int ,int ,long long ,pid_t ,pid_t ,pthread_t );
-
-//send the message to the central db directly
-int push_thread_db(long int ,long int,pthread_t ,long int,long int,pthread_t,long long );
-
-int push_thread_db2(char *parameter);
+int push_thread_db(pid_t ,pid_t,pthread_t ,pid_t,pid_t,pthread_t,long long );
 
 //get the thread dependency information
 int push_thread_dep(pid_t,pid_t,pthread_t,pthread_t,long long );
@@ -310,13 +293,3 @@ size_t writefunc(void *ptr, size_t size, size_t nmemb, struct string *s);
 
 ssize_t check_read_header(char *uuids,int sockfd,size_t*length,int flags);
 ssize_t check_read_rest(char *buf,int sockfd,size_t length,size_t count, int flags);
-ssize_t check_recvmsg_rest(struct msghdr* msg,int sockfd,size_t length,size_t buf_len,int flags);
-
-//for logenhancement
-int check_log(int fd,size_t count);
-
-//border checking
-int check_filter(char* on_ip,char* in_ip,int on_port,int in_port);
-
-//eliminate the variable part of uuid
-int format_uuid(char uuid[ID_LENGTH],char format_uuid[ID_LENGTH]);
